@@ -1,0 +1,12 @@
+---
+language: python
+python: "2.7"
+before_install:
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq python-apt python-pycurl
+install:
+  - pip install ansible
+script:
+  - echo logrotate > inventory
+  - ansible-playbook -i inventory vagrant/site.yml --syntax-check
+  - ansible-playbook -i inventory vagrant/site.yml --check

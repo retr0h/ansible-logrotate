@@ -1,0 +1,17 @@
+---
+- hosts: logrotate
+  gather_facts: False
+  pre_tasks:
+    - apt: update_cache=yes cache_valid_time=21600 # 60 * 60 * 6
+  roles:
+    - { role: logrotate } # should not error
+    - { role: logrotate,
+        logrotate_name: test_log,
+        logrotate_path: /var/log/test.log }
+    - { role: logrotate,
+        logrotate_name: test_conditional_log,
+        logrotate_path: /var/log/test_conditional.log,
+        logrotate_create: 644 root adm,
+        logrotate_postrotate: exec script }
+  tasks:
+    - include: roles/logrotate/tasks/test.yml
