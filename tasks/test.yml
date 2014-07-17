@@ -1,7 +1,6 @@
 ---
 - shell: dpkg -l logrotate
   register: install_result
-
 - name: ensure logrotate package is installed
   assert:
     that:
