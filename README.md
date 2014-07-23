@@ -32,13 +32,11 @@ Example Playbook
 ----------------
 
     - hosts: servers
-	  roles:
-		- { role: logrotate,
-			logrotate_name: apache2,
-			logrotate_path: /var/log/apache2/*.log }
-		- { role: logrotate,
-			logrotate_name: myapp,
-			logrotate_path: /var/log/tomcat/myapp.log }
+      roles:
+        - logrotate
+      tasks:
+        - logrotate: name=apache2 path=/var/log/apache2/*.log
+        - logrotate: name=myapp path=/var/log/tomcat/myapp.log
 
 License
 -------

@@ -1,4 +1,0 @@
----
-logrotate_config_dir: /etc/logrotate.d
-logrotate_frequency: daily
-logrotate_rotate: 8
