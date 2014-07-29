@@ -6,7 +6,7 @@ A role which manages the logrotate package, and provides a means to manage speci
 Role ready status
 -----------------
 
-[![Build Status](https://travis-ci.org/retr0h/ansible-logrotate.png?branch=master)](https://travis-ci.org/retr0h/ansible-logstash)
+[![Build Status](https://travis-ci.org/retr0h/ansible-logrotate.png?branch=master)](https://travis-ci.org/retr0h/ansible-logrotate)
 
 Requirements
 ------------
