@@ -3,6 +3,8 @@ logrotate
 
 A role which manages the logrotate package, and provides a means to manage specific log rotate configurations.
 
+In process of moving this to into core [ansible](https://github.com/ansible/ansible/pull/8271).
+
 Role ready status
 -----------------
 
@@ -33,7 +35,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-        - logrotate
+        - retr0h.logrotate
       tasks:
         - logrotate: name=apache2 path=/var/log/apache2/*.log
         - logrotate: name=myapp path=/var/log/tomcat/myapp.log
