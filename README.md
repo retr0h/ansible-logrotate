@@ -38,7 +38,18 @@ Example Playbook
         - retr0h.logrotate
       tasks:
         - logrotate: name=apache2 path=/var/log/apache2/*.log
+          args:
+            options:
+              - daily
+              - rotate 8
         - logrotate: name=myapp path=/var/log/tomcat/myapp.log
+          args:
+            options:
+              - daily
+              - rotate 8
+              - postrotate
+              - exec script
+              - endscript
 
 License
 -------

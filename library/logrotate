@@ -68,14 +68,14 @@ requirements: ["logrotate"]
 """
 
 EXAMPLES = """
-# Rotate apache2 logs daily while keeping 8
+# Rotate the Apache2 logs daily while keeping 8
 - logrotate: name=apache2 path=/var/log/apache2/*.log
   args:
     options:
       - daily
       - rotate 8
 
-# Rotate apache2 logs while adding a postrotate script
+# Rotate the Apache2 logs while adding a postrotate script
 # Add a config file with the create directive.
 - logrotate: name=apache2 path=/var/log/apache2/*.log
   args:
@@ -83,7 +83,7 @@ EXAMPLES = """
       - daily
       - rotate 8
       - postrotate
-      - exec foo
+      - exec script
       - endscript
 
 # Remove the Apache2 config file
