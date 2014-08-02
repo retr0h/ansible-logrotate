@@ -48,14 +48,7 @@
     that:
       - "grep_result.rc == 0"
 
-- shell: grep -F 'create 644 root adm' /etc/logrotate.d/test_conditional_log
-  register: grep_result
-- name: ensure logrotate config has proper create directive
-  assert:
-    that:
-      - "grep_result.rc == 0"
-
-- shell: awk '/postrotate/, /endscript/' /etc/logrotate.d/test_conditional_log | grep -F 'exec script'
+- shell: awk '/postrotate/, /endscript/' /etc/logrotate.d/test_log | grep -F 'exec script'
   register: grep_result
 - name: ensure logrotate config has proper postrotate directive
   assert:
