@@ -1,0 +1,7 @@
+---
+- shell: test ! -f /etc/logrotate.d/test_log
+  register: test_result
+- name: ensure logrotate config was deleted
+  assert:
+    that:
+      - "grep_result.rc == 0"
