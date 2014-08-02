@@ -37,6 +37,14 @@ options:
    name:
      description:
        - Name of the logrotate config file.
+     required: true
+   path:
+     description:
+       - Path of the file to manage.
+     required: true
+   options:
+     description:
+       -  A dict with logrotate options.
      default:
        - daily
        - missingok
@@ -46,14 +54,6 @@ options:
        - copytruncate
        - notifempty
      required: false
-   path:
-     description:
-       - Path of the file to manage.
-     required: true
-   tags:
-     description:
-       -  A dict with logrotate options.
-     required: true
    config_dir:
      description:
        - Directory containing config files.
