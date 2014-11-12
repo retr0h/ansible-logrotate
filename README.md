@@ -8,7 +8,8 @@ In process of moving this to into core [ansible](https://github.com/ansible/ansi
 Role ready status
 -----------------
 
-[![Build Status](https://travis-ci.org/retr0h/ansible-logrotate.png?branch=master)](https://travis-ci.org/retr0h/ansible-logrotate)
+[![Build Status](http://img.shields.io/travis/retr0h/ansible-logrotate.svg?style=flat-square)](https://travis-ci.org/retr0h/ansible-etcd)
+[![Galaxy](http://img.shields.io/badge/galaxy-ansible--logrotate-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/1131)
 
 Requirements
 ------------
