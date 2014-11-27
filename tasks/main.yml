@@ -1,2 +1,3 @@
 ---
-- apt: pkg=logrotate
+- name: install logrotate package
+  apt: pkg=logrotate
