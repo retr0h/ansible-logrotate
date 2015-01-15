@@ -3,7 +3,7 @@ logrotate
 
 A role which manages the logrotate package, and provides a means to manage specific log rotate configurations.
 
-In process of moving this to into core [ansible](https://github.com/ansible/ansible/pull/8271).
+In process of moving this to into core [ansible](https://github.com/ansible/ansible-modules-extras/pull/54).
 
 Role ready status
 -----------------
