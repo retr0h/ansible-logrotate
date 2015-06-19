@@ -5,7 +5,7 @@ before_install:
   - sudo apt-get update -qq
 install:
   # Install Ansible.
-  - pip install ansible==1.6.0
+  - pip install ansible==1.9.1
 
   # Create an inventory file for testing.
   - "printf 'logrotate ansible_ssh_host=localhost' > inventory"
