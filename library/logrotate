@@ -110,9 +110,11 @@ def _compare_config(config, config_path):
 
     return on_disk_md5 == current_run_md5
 
+
 def _write_config(config, config_path):
         with open(config_path, 'w') as f:
             f.write(config)
+
 
 def _get_config_path(module):
     name = module.params.get('name')
@@ -120,12 +122,14 @@ def _get_config_path(module):
 
     return os.path.join(config_dir, name)
 
+
 def _get_config(module):
     path = module.params.get('path')
     options = module.params.get('options')
 
     return TEMPLATE.format(path=path,
                            options='\n  '.join(options))
+
 
 def _add_config(module):
     config_path = _get_config_path(module)
@@ -139,6 +143,7 @@ def _add_config(module):
         _write_config(config, config_path)
         module.exit_json(changed=True, result="Enabled")
 
+
 def _remove_config(module):
     config_path = _get_config_path(module)
     if os.path.isfile(config_path):
@@ -147,20 +152,21 @@ def _remove_config(module):
     else:
         module.exit_json(changed=False, result="Success")
 
+
 def main():
     module = AnsibleModule(
-        argument_spec = dict(
-            name       = dict(required=True),
-            path       = dict(required=True),
-            options    = dict(default=['daily',
-                                       'missingok',
-                                       'rotate 8',
-                                       'compress',
-                                       'delaycompress',
-                                       'copytruncate',
-                                       'notifempty']),
-            config_dir = dict(default='/etc/logrotate.d'),
-            state      = dict(default='present', choices=['absent', 'present']),
+        argument_spec=dict(
+            name=dict(required=True),
+            path=dict(required=True),
+            options=dict(default=['daily',
+                                  'missingok',
+                                  'rotate 8',
+                                  'compress',
+                                  'delaycompress',
+                                  'copytruncate',
+                                  'notifempty']),
+            config_dir=dict(default='/etc/logrotate.d'),
+            state=dict(default='present', choices=['absent', 'present']),
         ),
     )
 
@@ -169,6 +175,7 @@ def main():
 
     if module.params.get('state') == 'absent':
         _remove_config(module)
+
 
 # this is magic, see lib/ansible/module_common.py
 from ansible.module_utils.basic import *
