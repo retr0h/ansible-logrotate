@@ -1,6 +1,5 @@
 ---
 - hosts: logrotate
-  gather_facts: False
   pre_tasks:
     - apt: update_cache=yes cache_valid_time=21600 # 60 * 60 * 6
   roles:
