@@ -24,7 +24,6 @@
 import os
 import hashlib
 
-
 DOCUMENTATION = """
 ---
 module: logrotate
@@ -111,8 +110,8 @@ def _compare_config(config, config_path):
 
 
 def _write_config(config, config_path):
-        with open(config_path, 'w') as f:
-            f.write(config)
+    with open(config_path, 'w') as f:
+        f.write(config)
 
 
 def _get_config_path(module):
@@ -126,8 +125,7 @@ def _get_config(module):
     path = module.params.get('path')
     options = module.params.get('options')
 
-    return TEMPLATE.format(path=path,
-                           options='\n  '.join(options))
+    return TEMPLATE.format(path=path, options='\n  '.join(options))
 
 
 def _add_config(module):
@@ -154,27 +152,21 @@ def _remove_config(module):
 
 def main():
     module = AnsibleModule(
-        argument_spec=dict(
-            name=dict(required=True),
-            path=dict(required=True),
-            options=dict(default=['daily',
-                                  'missingok',
-                                  'rotate 8',
-                                  'compress',
-                                  'delaycompress',
-                                  'copytruncate',
-                                  'notifempty']),
-            config_dir=dict(default='/etc/logrotate.d'),
-            state=dict(default='present', choices=['absent', 'present']),
-        ),
-    )
+        argument_spec=dict(name=dict(required=True),
+                           path=dict(required=True),
+                           options=dict(
+                               default=['daily', 'missingok', 'rotate 8',
+                                        'compress', 'delaycompress',
+                                        'copytruncate', 'notifempty']),
+                           config_dir=dict(default='/etc/logrotate.d'),
+                           state=dict(default='present',
+                                      choices=['absent', 'present']), ), )
 
     if module.params.get('state') == 'present':
         _add_config(module)
 
     if module.params.get('state') == 'absent':
         _remove_config(module)
-
 
 # this is magic, see lib/ansible/module_common.py
 from ansible.module_utils.basic import *
