@@ -39,7 +39,7 @@ options:
      required: true
    path:
      description:
-       - Path of the files to manage.
+       - Path of the files(s) to manage.
      required: true
    options:
      description:
@@ -67,6 +67,13 @@ requirements: ["logrotate"]
 """
 
 EXAMPLES = """
+- name: Rotate list of files with default options
+  logrotate:
+    name: foo
+    path:
+      - /var/log/log1.log
+      - /var/log/log2.log
+
 - name: Rotate the Apache2 logs daily while keeping 8
   logrotate: name=apache2
              path=/var/log/apache2/*.log
@@ -127,6 +134,8 @@ def _get_config_path(module):
 
 def _get_config(module):
     path = module.params.get('path')
+    if isinstance(path, list):
+        path = '\n'.join(path)
     options = module.params.get('options')
 
     return TEMPLATE.format(path=path, options='\n  '.join(options))
