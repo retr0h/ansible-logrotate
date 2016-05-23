@@ -8,9 +8,8 @@
         options:
           - daily
           - rotate 8
-          - postrotate
-          - exec script
-          - endscript
+        scripts:
+          postrotate: exec script
 
     - name: Create a test logrotate config file to delete
       logrotate: name=missing
@@ -30,8 +29,8 @@
       changed_when: False
 
     - name: Rotate list of files with default options
-      logrotate:
-        name: test_multi
+      logrotate: name=test_multi
+      args:
         path:
           - /var/log/log1.log
           - /var/log/log2.log

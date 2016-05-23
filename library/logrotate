@@ -43,7 +43,7 @@ options:
      required: true
    options:
      description:
-       -  A dict with logrotate options.
+       -  A list with logrotate options.
      default:
        - daily
        - missingok
@@ -52,6 +52,10 @@ options:
        - delaycompress
        - copytruncate
        - notifempty
+     required: false
+   scripts:
+     description:
+       -  A dict with logrotate scripts.
      required: false
    config_dir:
      description:
@@ -82,16 +86,15 @@ EXAMPLES = """
       - daily
       - rotate 8
 
-- name:  Rotate the Apache2 logs while adding a postrotate script
+- name: Rotate the Apache2 logs while adding a postrotate script
   logrotate: name=apache2
              path=/var/log/apache2/*.log
   args:
     options:
       - daily
       - rotate 8
-      - postrotate
-      - exec script
-      - endscript
+    scripts:
+      postrotate: "[ -s /run/nginx.pid ] && kill -USR1 `cat /run/nginx.pid`"
 
 - name: Remove the Apache2 config file
   logrotate: name=apache2
@@ -105,7 +108,14 @@ TEMPLATE = """
 
 {path} {{
   {options}
+  {scripts}
 }}
+"""
+
+SCRIPT_TEMPLATE = """
+  {name}
+    {script}
+  endscript
 """
 
 
@@ -132,12 +142,19 @@ def _get_config_path(module):
 
 
 def _get_config(module):
+    """ Don't force the target to have jinja2 """
     path = module.params.get('path')
     if isinstance(path, list):
         path = ' '.join(path)
     options = module.params.get('options')
+    scripts = module.params.get('scripts')
+    scripts = [SCRIPT_TEMPLATE.format(name=k, script=v)
+               for (k, v) in scripts.iteritems()]
 
-    return TEMPLATE.format(path=path, options='\n  '.join(options))
+    template = TEMPLATE.format(path=path,
+                               options='\n  '.join(options),
+                               scripts=''.join(scripts))
+    return os.linesep.join([s for s in template.splitlines() if s.strip()])
 
 
 def _add_config(module):
@@ -170,6 +187,7 @@ def main():
                                default=['daily', 'missingok', 'rotate 8',
                                         'compress', 'delaycompress',
                                         'copytruncate', 'notifempty']),
+                           scripts=dict(default={}),
                            config_dir=dict(default='/etc/logrotate.d'),
                            state=dict(default='present',
                                       choices=['absent', 'present']), ), )
