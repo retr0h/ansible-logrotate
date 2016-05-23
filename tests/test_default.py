@@ -18,9 +18,9 @@ def test_logrotate_config(File, filename):
 def test_logrotate_config_content(File, filename):
     f = File(filename)
 
-    f.contains('/var/log/test.log')
-    f.contains('daily')
-    f.contains('rotate 8')
+    assert f.contains('/var/log/test.log {')
+    assert f.contains('daily')
+    assert f.contains('rotate 8')
 
     assert re.search(r'postrotate.*exec script.*endscript', f.content,
                      re.DOTALL)
@@ -30,8 +30,7 @@ def test_logrotate_config_content(File, filename):
 def test_logrotate_config_content_multi_file(File, filename):
     f = File(filename)
 
-    assert re.search(r'/var/log/log1.log.*/var/log/log2.log', f.content,
-                     re.DOTALL)
+    assert f.contains('/var/log/log1.log /var/log/log2.log {')
 
 
 @pytest.mark.parametrize('filename', ['/etc/logrotate.d/missing'])
