@@ -1,9 +1,8 @@
 ---
 - hosts: logrotate
-  pre_tasks:
-    - apt: update_cache=yes cache_valid_time=21600 # 60 * 60 * 6
   tasks:
-    - logrotate: name=test_log
+    - name: Create a test logrotate config file
+      logrotate: name=test
                  path=/var/log/test.log
       args:
         options:
@@ -12,7 +11,20 @@
           - postrotate
           - exec script
           - endscript
-    - include: tasks/test_present.yml
 
-    - logrotate: name=test_log path=/var/log/test.log state=absent
-    - include: tasks/test_absent.yml
+    - name: Create a test logrotate config file to delete
+      logrotate: name=missing
+                 path=/var/log/missing.log
+      changed_when: False
+
+    - stat: path=/etc/logrotate.d/test
+      register: logrotate_stat
+    - assert:
+        that:
+          - "logrotate_stat.stat.exists == True"
+
+    - name: Remove the test logrotate config file
+      logrotate: name=missing
+                 path=/var/log/missing.log
+                 state=absent
+      changed_when: False
