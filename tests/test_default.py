@@ -18,9 +18,9 @@ def test_logrotate_config(File, filename):
 def test_logrotate_config_content(File, filename):
     f = File(filename)
 
-    f.contains('/var/log/test.log')
-    f.contains('daily')
-    f.contains('rotate 8')
+    assert f.contains('/var/log/test.log')
+    assert f.contains('daily')
+    assert f.contains('rotate 8')
 
     assert re.search(r'postrotate.*exec script.*endscript', f.content,
                      re.DOTALL)
