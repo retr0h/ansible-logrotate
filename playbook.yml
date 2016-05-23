@@ -2,10 +2,9 @@
 - hosts: logrotate
   pre_tasks:
     - apt: update_cache=yes cache_valid_time=21600 # 60 * 60 * 6
-  roles:
-    - logrotate
   tasks:
-    - logrotate: name=test_log path=/var/log/test.log
+    - logrotate: name=test_log
+                 path=/var/log/test.log
       args:
         options:
           - daily
@@ -13,6 +12,7 @@
           - postrotate
           - exec script
           - endscript
-    - include: roles/logrotate/tasks/test_present.yml
+    - include: tasks/test_present.yml
+
     - logrotate: name=test_log path=/var/log/test.log state=absent
-    - include: roles/logrotate/tasks/test_absent.yml
+    - include: tasks/test_absent.yml

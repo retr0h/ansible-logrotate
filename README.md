@@ -33,15 +33,10 @@ Example Playbook
 ----------------
 
     - hosts: servers
-      roles:
-        - retr0h.logrotate
       tasks:
-        - logrotate: name=apache2 path=/var/log/apache2/*.log
-          args:
-            options:
-              - daily
-              - rotate 8
-        - logrotate: name=myapp path=/var/log/tomcat/myapp.log
+        - name: Rotate /var/log/tomcat/myapp.log
+          logrotate: name=myapp
+                     path=/var/log/tomcat/myapp.log
           args:
             options:
               - daily
@@ -49,6 +44,15 @@ Example Playbook
               - postrotate
               - exec script
               - endscript
+
+Testing
+-------
+
+Tests are performed by [Molecule](http://molecule.readthedocs.org/en/latest/).
+
+    $ make
+    $ source venv/bin/activate
+    $ molecule test
 
 License
 -------

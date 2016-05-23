@@ -1,0 +1,25 @@
+---
+ansible:
+  raw_env_vars:
+    ANSIBLE_LIBRARY: ./library
+
+molecule:
+  ignore_paths:
+    - .git
+    - .vagrant
+    - .molecule
+    - venv
+
+vagrant:
+  platforms:
+    - name: trusty64
+      box: ubuntu/trusty64
+
+  providers:
+    - name: virtualbox
+      type: virtualbox
+
+  instances:
+    - name: logrotate-01
+      ansible_groups:
+        - logrotate
