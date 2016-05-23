@@ -24,7 +24,6 @@
 import os
 import hashlib
 
-
 DOCUMENTATION = """
 ---
 module: logrotate
@@ -40,7 +39,7 @@ options:
      required: true
    path:
      description:
-       - Path of the file to manage.
+       - Path of the files(s) to manage.
      required: true
    options:
      description:
@@ -68,16 +67,24 @@ requirements: ["logrotate"]
 """
 
 EXAMPLES = """
-# Rotate the Apache2 logs daily while keeping 8
-- logrotate: name=apache2 path=/var/log/apache2/*.log
+- name: Rotate list of files with default options
+  logrotate:
+    name: foo
+    path:
+      - /var/log/log1.log
+      - /var/log/log2.log
+
+- name: Rotate the Apache2 logs daily while keeping 8
+  logrotate: name=apache2
+             path=/var/log/apache2/*.log
   args:
     options:
       - daily
       - rotate 8
 
-# Rotate the Apache2 logs while adding a postrotate script
-# Add a config file with the create directive.
-- logrotate: name=apache2 path=/var/log/apache2/*.log
+- name:  Rotate the Apache2 logs while adding a postrotate script
+  logrotate: name=apache2
+             path=/var/log/apache2/*.log
   args:
     options:
       - daily
@@ -86,8 +93,10 @@ EXAMPLES = """
       - exec script
       - endscript
 
-# Remove the Apache2 config file
-- logrotate: name=apache2 path=/var/log/apache2/*.log state=absent
+- name: Remove the Apache2 config file
+  logrotate: name=apache2
+             path=/var/log/apache2/*.log
+             state=absent
 """
 
 TEMPLATE = """
@@ -112,8 +121,8 @@ def _compare_config(config, config_path):
 
 
 def _write_config(config, config_path):
-        with open(config_path, 'w') as f:
-            f.write(config)
+    with open(config_path, 'w') as f:
+        f.write(config)
 
 
 def _get_config_path(module):
@@ -125,10 +134,11 @@ def _get_config_path(module):
 
 def _get_config(module):
     path = module.params.get('path')
+    if isinstance(path, list):
+        path = '\n'.join(path)
     options = module.params.get('options')
 
-    return TEMPLATE.format(path=path,
-                           options='\n  '.join(options))
+    return TEMPLATE.format(path=path, options='\n  '.join(options))
 
 
 def _add_config(module):
@@ -155,27 +165,21 @@ def _remove_config(module):
 
 def main():
     module = AnsibleModule(
-        argument_spec=dict(
-            name=dict(required=True),
-            path=dict(required=True),
-            options=dict(default=['daily',
-                                  'missingok',
-                                  'rotate 8',
-                                  'compress',
-                                  'delaycompress',
-                                  'copytruncate',
-                                  'notifempty']),
-            config_dir=dict(default='/etc/logrotate.d'),
-            state=dict(default='present', choices=['absent', 'present']),
-        ),
-    )
+        argument_spec=dict(name=dict(required=True),
+                           path=dict(required=True),
+                           options=dict(
+                               default=['daily', 'missingok', 'rotate 8',
+                                        'compress', 'delaycompress',
+                                        'copytruncate', 'notifempty']),
+                           config_dir=dict(default='/etc/logrotate.d'),
+                           state=dict(default='present',
+                                      choices=['absent', 'present']), ), )
 
     if module.params.get('state') == 'present':
         _add_config(module)
 
     if module.params.get('state') == 'absent':
         _remove_config(module)
-
 
 # this is magic, see lib/ansible/module_common.py
 from ansible.module_utils.basic import *

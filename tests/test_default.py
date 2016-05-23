@@ -26,6 +26,14 @@ def test_logrotate_config_content(File, filename):
                      re.DOTALL)
 
 
+@pytest.mark.parametrize('filename', ['/etc/logrotate.d/test_multi'])
+def test_logrotate_config_content_multi_file(File, filename):
+    f = File(filename)
+
+    assert re.search(r'/var/log/log1.log.*/var/log/log2.log', f.content,
+                     re.DOTALL)
+
+
 @pytest.mark.parametrize('filename', ['/etc/logrotate.d/missing'])
 def test_logrotate_config_removed(File, filename):
     f = File(filename)

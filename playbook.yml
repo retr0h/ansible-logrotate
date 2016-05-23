@@ -28,3 +28,10 @@
                  path=/var/log/missing.log
                  state=absent
       changed_when: False
+
+    - name: Rotate list of files with default options
+      logrotate:
+        name: test_multi
+        path:
+          - /var/log/log1.log
+          - /var/log/log2.log
