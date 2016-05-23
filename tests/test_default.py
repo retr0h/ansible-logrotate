@@ -22,7 +22,7 @@ def test_logrotate_config_content(File, filename):
     assert f.contains('daily')
     assert f.contains('rotate 8')
 
-    assert re.search(r'postrotate.*exec script.*endscript', f.content,
+    assert re.search(r'postrotate.*  exec script.*endscript', f.content,
                      re.DOTALL)
 
 
