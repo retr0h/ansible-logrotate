@@ -6,12 +6,13 @@ A library which manages log rotate configurations.
 Library ready status
 --------------------
 
+[![Build Status](http://img.shields.io/travis/retr0h/ansible-logrotate.svg?style=flat-square)](https://travis-ci.org/retr0h/ansible-etcd)
 [![Galaxy](http://img.shields.io/badge/galaxy-ansible--logrotate-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/1131)
 
 Requirements
 ------------
 
-None
+* Ansible 2.1
 
 Dependencies
 ------------
