@@ -144,10 +144,9 @@ def _get_config_path(module):
 def _get_config(module):
     """ Don't force the target to have jinja2 """
     path = module.params.get('path')
-    if isinstance(path, list):
-        path = ' '.join(path)
+    path = ' '.join(path)
     options = module.params.get('options')
-    scripts = module.params.get('scripts')
+    scripts = module.params.get('scripts', {})
     scripts = [SCRIPT_TEMPLATE.format(name=k, script=v)
                for (k, v) in scripts.iteritems()]
 
@@ -180,17 +179,16 @@ def _remove_config(module):
 
 
 def main():
-    module = AnsibleModule(
-        argument_spec=dict(name=dict(required=True),
-                           path=dict(required=True),
-                           options=dict(
-                               default=['daily', 'missingok', 'rotate 8',
-                                        'compress', 'delaycompress',
-                                        'copytruncate', 'notifempty']),
-                           scripts=dict(default={}),
-                           config_dir=dict(default='/etc/logrotate.d'),
-                           state=dict(default='present',
-                                      choices=['absent', 'present']), ), )
+    module = AnsibleModule(argument_spec=dict(
+        name=dict(required=True),
+        path=dict(type='list', required=True),
+        options=dict(type='list',
+                     default=['daily', 'missingok', 'rotate 8', 'compress',
+                              'delaycompress', 'copytruncate', 'notifempty']),
+        scripts=dict(type='dict', default={}),
+        config_dir=dict(default='/etc/logrotate.d'),
+        state=dict(default='present',
+                   choices=['absent', 'present']), ), )
 
     if module.params.get('state') == 'present':
         _add_config(module)

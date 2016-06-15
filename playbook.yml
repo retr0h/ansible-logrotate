@@ -1,5 +1,5 @@
 ---
-- hosts: logrotate
+- hosts: all
   tasks:
     - name: Create a test logrotate config file
       logrotate: name=test
