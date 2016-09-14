@@ -1,4 +1,7 @@
 ---
+driver:
+  name: docker
+
 molecule:
   raw_env_vars:
     ANSIBLE_LIBRARY: ../library
@@ -14,3 +17,6 @@ docker:
     - name: logrotate-01
       image: ubuntu
       image_version: latest
+
+verifier:
+  name: testinfra

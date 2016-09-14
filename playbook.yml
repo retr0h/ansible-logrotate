@@ -16,9 +16,11 @@
                  path=/var/log/missing.log
       changed_when: False
 
-    - stat: path=/etc/logrotate.d/test
+    - name: Stat path to test logrotate conf
+      stat: path=/etc/logrotate.d/test
       register: logrotate_stat
-    - assert:
+    - name: Assert that test logrotate conf exists
+      assert:
         that:
           - "logrotate_stat.stat.exists == True"
 
