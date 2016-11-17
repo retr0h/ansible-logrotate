@@ -8,9 +8,9 @@ molecule:
 
   ignore_paths:
     - .git
-    - .vagrant
     - .molecule
-    - venv
+    - .tox
+    - .vagrant
 
 docker:
   containers:

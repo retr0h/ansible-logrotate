@@ -6,7 +6,7 @@ A library which manages log rotate configurations.
 Library ready status
 --------------------
 
-[![Build Status](http://img.shields.io/travis/retr0h/ansible-logrotate.svg?style=flat-square)](https://travis-ci.org/retr0h/ansible-etcd)
+[![Build Status](http://img.shields.io/travis/retr0h/ansible-logrotate.svg?style=flat-square)](https://travis-ci.org/retr0h/ansible-logrotate)
 [![Galaxy](http://img.shields.io/badge/galaxy-ansible--logrotate-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/1131)
 
 Requirements
@@ -40,9 +40,7 @@ Testing
 
 Tests are performed by [Molecule](http://molecule.readthedocs.org/en/latest/).
 
-    $ make
-    $ source venv/bin/activate
-    $ molecule test
+    $ tox
 
 License
 -------
