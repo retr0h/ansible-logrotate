@@ -35,6 +35,19 @@ Example Playbook
               - exec script
               - endscript
 
+        - name: rotate /var/log/wibble.log
+          logrotate:
+            name: wibble-log
+            path: '/var/log/wibble*.log'
+            options:
+              - daily
+              - size +1M
+              - rotate 7
+              - missingok
+              - copytruncate
+              - compress
+
+
 Testing
 -------
 
