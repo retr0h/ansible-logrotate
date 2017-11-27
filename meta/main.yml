@@ -4,18 +4,14 @@ galaxy_info:
   description: Deploy and manage logrotate.
   company:
   license: MIT
-  min_ansible_version: 2.1
+  min_ansible_version: 2.2
   platforms:
-  - name: EL
-    versions:
-    - 7
-  - name: Ubuntu
-    versions:
-    - all
-    - quantal
-    - raring
-    - saucy
-    - trusty
+    - name: EL
+      versions:
+        - 7
+    - name: Ubuntu
+      versions:
+        - all
   categories:
-  - system
+    - system
 dependencies: []

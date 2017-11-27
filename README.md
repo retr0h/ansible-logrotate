@@ -12,7 +12,7 @@ Library ready status
 Requirements
 ------------
 
-* Ansible 2.1
+* Ansible >= 2.2
 
 Dependencies
 ------------
